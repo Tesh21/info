@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<db:config name="Database_Config" doc:name="Database Config" doc:id="fa1ec6ad-eafd-46c1-b549-2706e6809be9" >
+		<db:my-sql-connection host="localhost" port="3306" user="root" password="root22" />
+	</db:config>
+	<sub-flow name="tradesSub_Flow" doc:id="f32c380e-0e1e-41d6-a527-6408b474a7ce" >
+		<ee:transform doc:name="Transform Message" doc:id="c5169ae0-cd63-4ead-a593-a95cd38941b5" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload map ( payload01 , indexOfPayload01 ) -> {
+	symbol: payload01.symbol,
+	quantity: payload01.quantity,
+	price: payload01.price,
+	myindex: payload01.myindex,
+	"type": payload01."type",
+	operation: payload01.operation
+}
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<db:bulk-insert doc:name="Bulk insert" doc:id="c00edced-efea-4b75-a722-6f2c5af3dd7e" config-ref="Database_Config">
+			<db:sql><![CDATA[inser into teshe.user(myindex, symbol, operation, quantity, price, type) values(:myindex, :symbol, :operation, :quantity, :price, :type)]]></db:sql>
+		</db:bulk-insert>
+	</sub-flow>
+</mule>

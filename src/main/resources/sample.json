@@ -1,0 +1,18 @@
+[
+{
+  "myindex": "NASDAQ",
+  "symbol": "AAPL",
+  "operation": "BUY",
+  "quantity": 20,
+  "price": 120.50,
+  "type": "equity"
+},
+{
+  "myindex": "NASDAQ2",
+  "symbol": "AAPL2",
+  "operation": "BUY2",
+  "quantity": 40,
+  "price": 180.75,
+  "type": "fx"
+}
+]

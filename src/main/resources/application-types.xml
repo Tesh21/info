@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<types:mule xmlns:types="http://www.mulesoft.org/schema/mule/types">
+  <types:catalog>
+    <types:type name="insertDB" format="json">
+      <types:shape format="weave" example="sample.json"><![CDATA[%dw 2.0
+
+type insertDB = Array<{|  myindex: String,   symbol: String,   operation: String,   quantity: Number {"typeId": "int"},   price: Number {"typeId": "double"},   "type": String|}> {"example": "[{\\\"myindex\\\":\\\"NASDAQ\\\",\\\"symbol\\\":\\\"AAPL\\\",\\\"operation\\\":\\\"BUY\\\",\\\"quantity\\\":20,\\\"price\\\":120.50,\\\"type\\\":\\\"equity\\\"},{\\\"myindex\\\":\\\"NASDAQ2\\\",\\\"symbol\\\":\\\"AAPL2\\\",\\\"operation\\\":\\\"BUY2\\\",\\\"quantity\\\":40,\\\"price\\\":180.75,\\\"type\\\":\\\"fx\\\"}]"}
+
+]]></types:shape>
+    </types:type>
+  </types:catalog>
+  <types:enrichment select="#c5169ae0-cd63-4ead-a593-a95cd38941b5">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="insertDB"/>
+        </types:message>
+      </types:input-event>
+    </types:processor-declaration>
+  </types:enrichment>
+</types:mule>
